@@ -16,6 +16,10 @@ def target_derivatives(t,state,extra_paras=None):
     dvydt=-(omega**2)*y
     dvzdt=1.0
 
+    # dvxdt=0.0
+    # dvydt=0.0
+    # dvzdt=0.0
+
     return np.array([dxdt,dydt,dzdt,dvxdt,dvydt,dvzdt])
 
 # Updates the target state

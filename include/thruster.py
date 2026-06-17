@@ -30,8 +30,8 @@ class Motor:
 def initialise_drone(arm_length,kf,km,max_rpm):
 
     front_motor=Motor([0.0,arm_length,0.0,kf,km,1.0,max_rpm])
-    right_motor=Motor([arm_length,0.0,0.0,kf,km,1.0,max_rpm])
-    back_motor=Motor([0.0,-arm_length,0.0,kf,km,-1.0,max_rpm])
+    right_motor=Motor([arm_length,0.0,0.0,kf,km,-1.0,max_rpm])
+    back_motor=Motor([0.0,-arm_length,0.0,kf,km,1.0,max_rpm])
     left_motor=Motor([-arm_length,0.0,0.0,kf,km,-1.0,max_rpm])
 
     return [front_motor,right_motor,back_motor,left_motor]

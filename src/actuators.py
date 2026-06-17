@@ -3,6 +3,9 @@ from include import constants as cons
 from include.state import State
 from include import thruster
 
+K=1.0
+
+
 # This is the actuator responsible for commanding the motors with the RPM
 def actuator_derivatives(state,RPMs,motors):
 
@@ -17,8 +20,8 @@ def actuator_derivatives(state,RPMs,motors):
     torque=thruster.calc_torque(RPMs,motors)
 
     # Getting angular accelerations from torque using euler's equations
-    pdot=(torque[0]+(cons.Iyy-cons.Izz)*state.q*state.r)/cons.Ixx
-    qdot=(torque[1]+(cons.Izz-cons.Ixx)*state.p*state.r)/cons.Iyy
-    rdot=(torque[2]+(cons.Ixx-cons.Iyy)*state.p*state.q)/cons.Izz
+    pdot=K*(torque[0]+(cons.Iyy-cons.Izz)*state.q*state.r)/cons.Ixx
+    qdot=K*(torque[1]+(cons.Izz-cons.Ixx)*state.p*state.r)/cons.Iyy
+    rdot=K*(torque[2]+(cons.Ixx-cons.Iyy)*state.p*state.q)/cons.Izz
 
     return State([0.0,0.0,0.0,global_acc[0],global_acc[1],global_acc[2],0.0,0.0,0.0,pdot,qdot,rdot])

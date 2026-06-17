@@ -2,7 +2,7 @@ import numpy as np
 from include.state import State
 
 # Constant
-N=5.0
+N=10.0
 den_min=1.0
 
 # Calculates the required accelerations to pursuit
@@ -51,3 +51,54 @@ def guidance(t,state,extra_paras):
     dvzdt=nC[1]*np.cos(LOS[1])+nC[2]*np.cos(LOS[2])
 
     return State([0.0,0.0,0.0,dvxdt,dvydt,dvzdt,0.0,0.0,0.0,0.0,0.0,0.0])
+
+# import numpy as np
+# from include.state import State
+
+# # Constant
+# N = 10.0
+# den_min = 1.0
+
+# def guidance(t,state,extra_paras):
+
+#     # Unpacking
+#     target_state = extra_paras[0]
+#     prev_target_state = extra_paras[1]
+#     dt = extra_paras[2]
+
+#     # Target and missile states
+#     rT = target_state[0:3]
+#     vT = (rT - prev_target_state[0:3]) / dt
+
+#     rM = np.array([state.x,state.y,state.z])
+#     vM = np.array([state.vx,state.vy,state.vz])
+
+#     # Relative quantities
+#     rTM = rT - rM
+#     vTM = vT - vM
+
+#     R = np.linalg.norm(rTM)
+
+#     if R < den_min:
+#         return State([0.0]*12)
+
+#     # LOS unit vector
+#     r_hat = rTM / R
+
+#     # Closing velocity
+#     Vc = -np.dot(rTM, vTM) / R
+
+#     # LOS angular rate vector
+#     omega_LOS = np.cross(rTM, vTM) / (R**2)
+
+#     # 3D PN acceleration command
+#     a_cmd = N * Vc * np.cross(omega_LOS, r_hat)
+
+#     return State([
+#         0.0,0.0,0.0,
+#         a_cmd[0],
+#         a_cmd[1],
+#         a_cmd[2],
+#         0.0,0.0,0.0,
+#         0.0,0.0,0.0
+#     ])

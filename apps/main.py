@@ -11,25 +11,25 @@ from include import logger
 
 
 # Initialising the state variable
-state=State([0.0,0.0,0.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,0.0,0.0])
+state=State([0.0,0.0,0.0,5.0,5.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0])
 t=0.0
 t_final=1000.0
-dt=0.001
+dt=0.01
 
 # Initialising the variables for target object 
-target_state=np.array([100.0,0.0,70.0,0.0,20.0,0.0])
+target_state=np.array([100.0,100.0,1.0,0.0,0.0,0.0])
 prev_target_state=target_state.copy()
 
 # Initialising the drone motors 
-motors=thruster.initialise_drone(0.2,1.5e-5,3e-7,8000)
+motors=thruster.initialise_drone(0.2,2.5e-7,5e-9,8000)
 
 # Initialising the Cascade Controller
 cascadeController=Cascade(np.array([
-    [4.0,4.0,4.0],
-    [8.0,8.0,8.0],
-    [0.5,0.5,0.5],
-    [0.1,0.1,0.1]
-]),0.5)
+    [0.12,0.12,0.12],#0.04
+    [2.0,2.0,2.0],#1.6
+    [0.01,0.01,0.01],#0.01
+    [0.02,0.02,0.02]#0.02
+]),np.array([0.1,0.1,0.1]))#0.02
 
 # Initialising the csv file to store data 
 filename=input("Enter the filename to store the simulation data(without extension): ")
@@ -50,7 +50,7 @@ while t<t_final:
     # Updating fawkes and appending the data
     state=rk4_step(state,t,dt,derivatives,[RPMs,motors])
     t+=dt
-    logger.log_state(writer,t,state,target_state)
+    logger.log_state(writer,t,state,target_state,RPMs)
 
     # If strikes ground or target then stop the simulation
     if state.z<0.0:
